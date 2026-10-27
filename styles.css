@@ -1,0 +1,36 @@
+/* Tudo aqui só vale com a extensão ligada (o content.js marca <html data-ytsa-desligado> quando desliga). */
+
+/* Anúncios fora do player: feed, busca, barra lateral, banners. */
+html:not([data-ytsa-desligado]) :is(
+  ytd-ad-slot-renderer,
+  ytd-in-feed-ad-layout-renderer,
+  ytd-banner-promo-renderer,
+  ytd-statement-banner-renderer,
+  ytd-promoted-sparkles-web-renderer,
+  ytd-promoted-video-renderer,
+  ytd-display-ad-renderer,
+  ytd-companion-slot-renderer,
+  ytd-action-companion-ad-renderer,
+  ytd-player-legacy-desktop-watch-ads-renderer,
+  ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-ads"],
+  ytd-rich-item-renderer:has(> #content > ytd-ad-slot-renderer),
+  ytd-merch-shelf-renderer,
+  #masthead-ad,
+  #player-ads,
+  .ytd-mealbar-promo-renderer,
+  .ytp-ad-overlay-container,
+  .ytp-ad-image-overlay,
+  ytm-promoted-sparkles-web-renderer,
+  ytm-companion-ad-renderer,
+  ad-slot-renderer
+) {
+  display: none !important;
+}
+
+/* Aviso anti-bloqueador. */
+html:not([data-ytsa-desligado]) :is(
+  ytd-enforcement-message-view-model,
+  tp-yt-paper-dialog:has(ytd-enforcement-message-view-model)
+) {
+  display: none !important;
+}
