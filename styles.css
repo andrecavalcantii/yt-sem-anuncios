@@ -34,3 +34,21 @@ html:not([data-ytsa-desligado]) :is(
 ) {
   display: none !important;
 }
+
+/* Shorts: opção própria no popup (o content.js marca <html data-ytsa-sem-shorts>). */
+html[data-ytsa-sem-shorts] :is(
+  ytd-rich-shelf-renderer[is-shorts],
+  ytd-rich-section-renderer:has(ytd-rich-shelf-renderer[is-shorts]),
+  ytd-rich-section-renderer:has(ytm-shorts-lockup-view-model),
+  grid-shelf-view-model:has(ytm-shorts-lockup-view-model),
+  ytd-reel-shelf-renderer,
+  ytd-rich-item-renderer:has(a[href^="/shorts/"]),
+  ytd-video-renderer:has(a[href^="/shorts/"]),
+  ytd-grid-video-renderer:has(a[href^="/shorts/"]),
+  ytd-guide-entry-renderer:has(a[title="Shorts"]),
+  ytd-mini-guide-entry-renderer[aria-label="Shorts"],
+  yt-tab-shape[tab-title="Shorts"],
+  yt-chip-cloud-chip-renderer[data-ytsa-shorts]
+) {
+  display: none !important;
+}

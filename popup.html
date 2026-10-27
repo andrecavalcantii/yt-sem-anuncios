@@ -12,9 +12,12 @@
       cursor: pointer; color: #fff; background: #c00;
     }
     button.desligado { background: #2a7d2a; }
+    label { display: flex; align-items: center; gap: 8px; padding-top: 12px; border-top: 1px solid #ddd; cursor: pointer; }
+    input { width: 16px; height: 16px; margin: 0; accent-color: #c00; cursor: pointer; }
     @media (prefers-color-scheme: dark) {
       body { background: #1e1e1e; color: #eee; }
       #estado { color: #aaa; }
+      label { border-color: #333; }
     }
   </style>
 </head>
@@ -23,6 +26,7 @@
     <h1>YT Sem Anúncios</h1>
     <p id="estado">…</p>
     <button id="alternar"></button>
+    <label><input type="checkbox" id="shorts"> Esconder Shorts</label>
   </main>
   <script src="popup.js"></script>
 </body>

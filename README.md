@@ -1,6 +1,6 @@
 # YT Sem Anúncios
 
-Extensão (Manifest V3) que tira anúncios do YouTube. Funciona no Chrome/Edge/Brave e no Firefox 128+.
+Extensão (Manifest V3) que tira anúncios do YouTube e, se você quiser, esconde os Shorts. Funciona no Chrome/Edge/Brave e no Firefox 128+.
 
 ## Como funciona
 
@@ -9,8 +9,8 @@ Extensão (Manifest V3) que tira anúncios do YouTube. Funciona no Chrome/Edge/B
 | `inject.js` | Roda dentro da página antes do YouTube e apaga `adPlacements`, `adSlots`, `playerAds` do JSON do player (via `JSON.parse`, `Response.json` e `ytInitialPlayerResponse`). Sem esses campos o player não agenda anúncio. |
 | `rules.json` | Bloqueia requisições de anúncio/rastreamento (doubleclick, pagead, ptracking…). |
 | `content.js` | Plano B: se o player entrar em modo anúncio, muta, acelera pra 16x, pula pro fim e clica em "Pular". Também remove o aviso anti-bloqueador. |
-| `styles.css` | Esconde anúncios do feed, da busca e da barra lateral. |
-| `popup.html` / `popup.js` | Botão de ligar/desligar no ícone da extensão. Guarda o estado em `chrome.storage`, liga/desliga as regras de rede e recarrega a aba do YouTube. |
+| `styles.css` | Esconde anúncios do feed, da busca e da barra lateral. Também esconde os Shorts (prateleiras, item do menu, aba do canal, filtro da busca) quando a opção está marcada. |
+| `popup.html` / `popup.js` | Botão de ligar/desligar no ícone da extensão e a caixa **Esconder Shorts** (vale na hora, sem recarregar). Guarda o estado em `chrome.storage`, liga/desliga as regras de rede e recarrega a aba do YouTube. |
 
 O `inject.js` roda dentro da página e não acessa `chrome.storage`, então o `content.js` espelha o estado em `localStorage["ytsa-desligado"]` e no atributo `data-ytsa-desligado` do `<html>` (usado pelo CSS).
 
@@ -37,6 +37,7 @@ Depois de mexer no código: recarregue a extensão e dê F5 no YouTube.
 O YouTube muda nomes de campos e classes com frequência. Os pontos que costumam quebrar:
 - nomes dos campos em `CAMPOS_DE_ANUNCIO` (`inject.js`)
 - seletores em `styles.css` e `BOTOES_PULAR` (`content.js`)
+- Shorts: o bloco `data-ytsa-sem-shorts` do `styles.css` e `marcarFiltroShorts` (`content.js`)
 - classe `ad-showing` do player
 
 Pra investigar: abra o DevTools, aba Network, filtre por `player`, e procure campos com "ad" no JSON da resposta.

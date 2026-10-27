@@ -9,6 +9,11 @@ function mostrar(ligado) {
 
 chrome.storage.local.get({ ligado: true }).then(({ ligado }) => mostrar(ligado));
 
+// Esconder Shorts é só CSS: o content.js escuta chrome.storage e aplica na hora, sem recarregar.
+const shorts = document.getElementById("shorts");
+chrome.storage.local.get({ esconderShorts: true }).then(({ esconderShorts }) => (shorts.checked = esconderShorts));
+shorts.addEventListener("change", () => chrome.storage.local.set({ esconderShorts: shorts.checked }));
+
 botao.addEventListener("click", async () => {
   const { ligado } = await chrome.storage.local.get({ ligado: true });
   const novo = !ligado;

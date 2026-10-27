@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "YT Sem Anúncios",
-  "version": "0.1.0",
-  "description": "Remove anúncios do YouTube: limpa os dados do player, bloqueia requisições de anúncio e pula o que escapar.",
+  "version": "0.2.0",
+  "description": "Remove anúncios do YouTube (limpa os dados do player, bloqueia requisições de anúncio e pula o que escapar) e esconde os Shorts.",
   "permissions": ["declarativeNetRequest", "storage"],
   "icons": {
     "16": "icons/icon-16.png",

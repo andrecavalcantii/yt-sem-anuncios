@@ -21,13 +21,29 @@
     document.documentElement?.toggleAttribute("data-ytsa-desligado", !ligado);
   }
 
+  // Esconder Shorts é independente do liga/desliga dos anúncios. O espelho no localStorage
+  // evita que os Shorts pisquem na tela antes do chrome.storage responder.
+  function aplicarShorts(esconder) {
+    try {
+      if (esconder) localStorage.removeItem("ytsa-com-shorts");
+      else localStorage.setItem("ytsa-com-shorts", "1");
+    } catch {}
+    document.documentElement?.toggleAttribute("data-ytsa-sem-shorts", esconder);
+  }
+
   try {
     aplicarEstado(localStorage.getItem("ytsa-desligado") !== "1");
+    aplicarShorts(localStorage.getItem("ytsa-com-shorts") !== "1");
   } catch {}
-  chrome.storage.local.get({ ligado: true }).then((s) => aplicarEstado(s.ligado));
+  chrome.storage.local.get({ ligado: true, esconderShorts: true }).then((s) => {
+    aplicarEstado(s.ligado);
+    aplicarShorts(s.esconderShorts);
+  });
 
   chrome.storage.onChanged.addListener((mudancas, area) => {
-    if (area === "local" && "ligado" in mudancas) aplicarEstado(mudancas.ligado.newValue);
+    if (area !== "local") return;
+    if ("ligado" in mudancas) aplicarEstado(mudancas.ligado.newValue);
+    if ("esconderShorts" in mudancas) aplicarShorts(mudancas.esconderShorts.newValue);
   });
 
   chrome.runtime.onMessage.addListener((msg) => {
@@ -37,7 +53,15 @@
     if (window === window.top) location.reload();
   });
 
+  // O filtro "Shorts" da busca não tem atributo próprio, só o texto; marca pra o styles.css esconder.
+  function marcarFiltroShorts() {
+    document.querySelectorAll("yt-chip-cloud-chip-renderer:not([data-ytsa-shorts])").forEach((chip) => {
+      if (chip.textContent.trim() === "Shorts") chip.setAttribute("data-ytsa-shorts", "");
+    });
+  }
+
   function tratarAnuncio() {
+    marcarFiltroShorts();
     if (!ligado) return;
     const player = document.querySelector(".html5-video-player");
     if (!player) return;
